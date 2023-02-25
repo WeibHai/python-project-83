@@ -1,0 +1,6 @@
+.env
+.venv/
+dist/
+__pycache__/
+hexlet-code/page-analyzer/__pycache__/
+hexlet-code/__pycache__/hexlet-code/games/__pycache__/
