@@ -5,10 +5,7 @@ from dotenv import load_dotenv
 
 def send_in_db(query, fetch='all'):
 
-    #host = dotenv_values(".env")['HOST']
-    #user = dotenv_values(".env")['USER']
-    #password = dotenv_values(".env")['PASSWORD']
-    #database = dotenv_values(".env")['DATABASE']
+    load_dotenv()
 
     host = os.getenv("HOST")
     user = os.getenv("USER")
