@@ -9,10 +9,10 @@ def send_in_db(query, fetch='all'):
     #password = dotenv_values(".env")['PASSWORD']
     #database = dotenv_values(".env")['DATABASE']
 
-    host = {{HOST}}
-    user = {{USER}}
-    password = {{PASSWORD}}
-    database = {{DATABASE}}
+    host = ${{ HOST }}
+    user = ${{ USER }}
+    password = ${{ PASSWORD }}
+    database = ${{ DATABASE }}
 
     try:
         connection = db.connect(
