@@ -4,10 +4,15 @@ from dotenv import dotenv_values
 
 def send_in_db(query, fetch='all'):
 
-    host = dotenv_values(".env")['HOST']
-    user = dotenv_values(".env")['USER']
-    password = dotenv_values(".env")['PASSWORD']
-    database = dotenv_values(".env")['DATABASE']
+    #host = dotenv_values(".env")['HOST']
+    #user = dotenv_values(".env")['USER']
+    #password = dotenv_values(".env")['PASSWORD']
+    #database = dotenv_values(".env")['DATABASE']
+
+    host = {{HOST}}
+    user = {{USER}}
+    password = {{PASSWORD}}
+    database = {{DATABASE}}
 
     try:
         connection = db.connect(

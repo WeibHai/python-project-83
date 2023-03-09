@@ -9,7 +9,8 @@ from dotenv import dotenv_values
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = dotenv_values(".env")['SECRET_KEY']
+ #app.config['SECRET_KEY'] = dotenv_values(".env")['SECRET_KEY']
+app.config['SECRET_KEY'] = {{'SECRET_KEY'}}
 
 
 @app.route('/')
