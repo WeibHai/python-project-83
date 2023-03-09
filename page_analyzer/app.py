@@ -4,13 +4,17 @@ from urllib.parse import urlparse
 from page_analyzer.validator import validate
 from page_analyzer.connector import send_in_db
 from datetime import date
-from dotenv import dotenv_values
+import os
+from dotenv import load_dotenv
+
 
 
 app = Flask(__name__)
 
- #app.config['SECRET_KEY'] = dotenv_values(".env")['SECRET_KEY']
-app.config['SECRET_KEY'] = ${{ SECRET_KEY }}
+load_dotenv()
+
+#app.config['SECRET_KEY'] = dotenv_values(".env")['SECRET_KEY']
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 
 @app.route('/')

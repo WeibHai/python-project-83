@@ -1,5 +1,6 @@
 import psycopg2 as db
-from dotenv import dotenv_values
+import os
+from dotenv import load_dotenv
 
 
 def send_in_db(query, fetch='all'):
@@ -9,10 +10,10 @@ def send_in_db(query, fetch='all'):
     #password = dotenv_values(".env")['PASSWORD']
     #database = dotenv_values(".env")['DATABASE']
 
-    host = ${{ HOST }}
-    user = ${{ USER }}
-    password = ${{ PASSWORD }}
-    database = ${{ DATABASE }}
+    host = os.getenv("HOST")
+    user = os.getenv("USER")
+    password = os.getenv("PASSWORD")
+    database = os.getenv("DATABASE")
 
     try:
         connection = db.connect(
