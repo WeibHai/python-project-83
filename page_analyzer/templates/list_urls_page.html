@@ -25,7 +25,7 @@
   {% if messages %}
   <div>
   {% for category, message in messages %}
-    <div class="alert alert-success" role="alert">{{ message }}</div>
+    <div class="alert alert-error" role="alert">{{ message }}</div>
   {% endfor %}
   </div>
   {% endif %}
@@ -42,9 +42,10 @@
       <tr>
         <th>ID</th>
         <th>Имя</th>
-        <th>Дата создания</th>
+        <th>Последняя проверка</th>
+        <th>Код ответа</th>
       </tr>
-      {% for url in list_urls %}
+      {% for url in site %}
       <tr>
         <td>
           {{ url.0 }}
@@ -54,6 +55,9 @@
         </td>
         <td>
           {{ url.2 }}
+        </td>
+        <td>
+          {{ url.5 }}
         </td>
       </tr>
       {% endfor %}

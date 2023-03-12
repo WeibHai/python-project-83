@@ -21,12 +21,14 @@
 </nav>
 
   </header>
-  
-  
-    
 
-    
-  
+  {% if messages %}
+  <div>
+  {% for category, message in messages %}
+    <div class="alert alert-success" role="alert">{{ message }}</div>
+  {% endfor %}
+  </div>
+  {% endif %}
 
   <main class="flex-grow-1">
     <div class="container-lg mt-3">
@@ -53,7 +55,7 @@
   </div>
 
     <h2 class="mt-5 mb-3">Проверки</h2>
-    <form method="post" action="/urls/1/checks">
+    <form method="post" action="{{ url_for('post_checks', id=site_id, url=site) }}">
     <input type="submit" class="btn btn-primary" value="Запустить проверку">
     </form>
     
@@ -68,7 +70,14 @@
         <th>description</th>
         <th>Дата создания</th>
     </tr>
-    
+    <tr>
+      <th>{{ checklist.0 }}</th>
+      <th>{{ checklist.2 }}</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>{{ checklist.6 }}</th>
+  </tr>
       </tbody>
     </table>
   </div>
