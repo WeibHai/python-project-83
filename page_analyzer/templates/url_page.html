@@ -32,7 +32,7 @@
 
   <main class="flex-grow-1">
     <div class="container-lg mt-3">
-      <h1>Сайт: {{ site }}</h1>
+      <h1>Сайт: {{ site.8 }}</h1>
 
     
   <div class="table-responsive">
@@ -55,7 +55,7 @@
   </div>
 
     <h2 class="mt-5 mb-3">Проверки</h2>
-    <form method="post" action="{{ url_for('post_checks', id=site_id, url=site) }}">
+    <form method="post" action="{{ url_for('post_checks', id=site_id) }}">
     <input type="submit" class="btn btn-primary" value="Запустить проверку">
     </form>
     
@@ -73,9 +73,9 @@
     <tr>
       <th>{{ site.0 }}</th>
       <th>{{ site.2 }}</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>{{ site.3 }}</th>
+      <th>{{ site.4 }}</th>
+      <th>{{ site.5 }}</th>
       <th>{{ site.9 }}</th>
   </tr>
       </tbody>

@@ -2,6 +2,7 @@ from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request
 from page_analyzer.connector import send_in_db
 from page_analyzer.validator import validate
+from page_analyzer.checker import get_check
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -28,7 +29,7 @@ def analyzer():
 def urls():
     query = "SELECT DISTINCT * FROM urls, url_checks"
 
-    response = send_in_db(query_urls)
+    response = send_in_db(query)
 
     return render_template('list_urls_page.html', site=response)
 
@@ -37,11 +38,11 @@ def urls():
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query = f"SELECT * FROM url_checks, urls WHERE url_id='{id}'"
+    query = f"SELECT * FROM url_checks, urls WHERE url_id='{id}' ORDER BY url_checks.id DESC"
 
     response= send_in_db(query, 'one')
 
-    return render_template('url_page.html', messages=messages,  site=response)
+    return render_template('url_page.html', messages=messages,  site=response, site_id=id)
 
 
 @app.post('/urls')
@@ -79,16 +80,19 @@ def post_checks(id):
     url = send_in_db(query_id)
 
     urlssss = url[0][0]
-    #вызыввается чекер он возвращает все что нужно для инсерта в бд или возвращает отказ
-    try:
-        checks_requests = requests.get('https://' + urlssss)
 
-    except Exception as _ex:
-        flash('Произошла ошибка при проверке', 'error')
-        return redirect(url_for('url', id=id))
+    result_check = get_check(urlssss)
+
+    title = result_check['title']
+
+    h1 = result_check['h1']
+
+    description = result_check['description']
+
+    status_code = result_check['status_code']
     
-    query_insert = f'''INSERT INTO url_checks (url_id, status_code, created_at)
-                       VALUES ('{id}', '{checks_requests.status_code}', '{date.today()}')'''
+    query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+                       VALUES ('{id}','{result_check['status_code']}', '{h1}', '{title}', '{description}', '{date.today()}')'''
 
     send_in_db(query_insert)
 
