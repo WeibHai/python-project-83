@@ -26,7 +26,7 @@ def analyzer():
 @app.get('/urls')
 def urls():
     query = """SELECT DISTINCT urls.id, urls.name, url_checks.created_at, url_checks.status_code
-               FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id"""
+               FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id ORDER BY urls.id DESC"""
 
     response = send_in_db(query)
 
