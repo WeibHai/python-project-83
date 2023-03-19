@@ -48,16 +48,16 @@
       {% for url in site %}
       <tr>
         <td>
-          {{ site }}
+          {{ url.0 }}
         </td>
         <td>
-          {{ url.1 }}
+          <a href="{{ url_for('url', id=url.0) }}">{{ url.1 }}</a>
         </td>
         <td>
           {{ url.2 }}
         </td>
         <td>
-          {{ url.5 }}
+          {{ url.3 }}
         </td>
       </tr>
       {% endfor %}

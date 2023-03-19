@@ -40,15 +40,15 @@
       <tbody>
         <tr>
           <td>ID</td>
-          <td>{{ site.1 }}</td>
+          <td>{{ site.0.0 }}</td>
         </tr>
         <tr>
           <td>Имя</td>
-          <td>{{ site.8 }}</td>
+          <td>{{ site.0.1 }}</td>
         </tr>
         <tr>
           <td>Дата создания</td>
-          <td>{{ site.6 }}</td>
+          <td>{{ site.0.2 }}</td>
         </tr>
       </tbody>
     </table>
@@ -72,12 +72,12 @@
     </tr>
     {% for url in site %}
     <tr>
-      <th>{{ url.0 }}</th>
-      <th>{{ url.2 }}</th>
       <th>{{ url.3 }}</th>
-      <th>{{ url.4 }}</th>
       <th>{{ url.5 }}</th>
       <th>{{ url.6 }}</th>
+      <th>{{ url.7 }}</th>
+      <th>{{ url.8 }}</th>
+      <th>{{ url.9 }}</th>
   </tr>
   {% endfor %}
       </tbody>

@@ -5,7 +5,7 @@ import requests
 def get_check(url):
     result = {}
 
-    response = requests.get('https://' + url)
+    response = requests.get(url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
 

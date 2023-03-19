@@ -25,24 +25,23 @@ def analyzer():
 
 @app.get('/urls')
 def urls():
-    query_in_urls = "SELECT DISTINCT * FROM urls"
-    query_in_url_checks = "SELECT DISTINCT * FROM url_checks"
+    query = """SELECT DISTINCT urls.id, urls.name, url_checks.created_at, url_checks.status_code
+               FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id"""
 
-    q = 'SELECT urls.id, urls.name, url_checks.created_at, url_checks.status_code FROM urls LEFT JOIN url_checks ON urls.id = url_checks.urls_id'
+    response = send_in_db(query)
 
-    site = send_in_db(query_in_urls)
-    checkup = send_in_db(q)
-
-    return render_template('list_urls_page.html', site=checkup)
+    return render_template('list_urls_page.html', site=response)
 
 
 @app.route('/urls/<id>', methods=['GET', 'POST'])
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query = f"""SELECT * FROM url_checks, urls
-                WHERE url_id='{id}'
-                ORDER BY url_checks.id DESC"""
+    #query = f"""SELECT * FROM url_checks, urls
+    #            WHERE url_id='{id}'
+    #            ORDER BY url_checks.id DESC"""
+
+    query = f"""SELECT * FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id WHERE urls.id = {id}"""
 
     response = send_in_db(query)
 
@@ -60,8 +59,6 @@ def post_analyzer():
 
     url = data['url']
 
-    #netloc = urlparse(url).netloc
-
     errors = validate(url)
 
     if errors:
@@ -75,9 +72,9 @@ def post_analyzer():
 
     send_in_db(query_insert)
 
-    query_id = 'SELECT MAX(id) FROM urls'
+    query_select = 'SELECT MAX(id) FROM urls'
 
-    id = send_in_db(query_id, 'one')
+    id = send_in_db(query_select, 'one')
 
     flash('Страница успешно добавлена', 'access')
     return redirect(url_for('url', id=id[0]))
@@ -85,9 +82,9 @@ def post_analyzer():
 
 @app.post('/urls/<id>/checks')
 def post_checks(id):
-    query_id = f'''SELECT name FROM urls WHERE id={id}'''
+    query_select = f'''SELECT name FROM urls WHERE id={id}'''
 
-    url = send_in_db(query_id)[0][0]
+    url = send_in_db(query_select)[0][0]
 
     result_check = get_check(url)
 
