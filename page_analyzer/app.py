@@ -37,11 +37,7 @@ def urls():
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    #query = f"""SELECT * FROM url_checks, urls
-    #            WHERE url_id='{id}'
-    #            ORDER BY url_checks.id DESC"""
-
-    query = f"""SELECT * FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id WHERE urls.id = {id}"""
+    query = f"""SELECT * FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id WHERE urls.id = {id} ORDER BY url_checks.id DESC"""
 
     response = send_in_db(query)
 
