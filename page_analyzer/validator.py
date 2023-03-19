@@ -1,4 +1,4 @@
-from validators import url as valid_url
+import validators
 from page_analyzer.connector import send_in_db
 
 
@@ -9,7 +9,7 @@ def validate(url):
     if not url:
         errors.append('URL обязателен')
 
-    if valid_url(str(url)):
+    if not validators.url(url):
         errors.append('Некорректный URL')
 
     if len(url) > 255:

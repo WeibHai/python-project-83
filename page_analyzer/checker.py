@@ -11,11 +11,11 @@ def get_check(url):
 
     result['status_code'] = response.status_code
 
-    raw_description = soup.find('meta', attrs = {'name': 'description'})
+    raw_description = soup.find('meta', attrs={'name': 'description'})
 
     if raw_description is None:
         result['description'] = 'хуй'
-    
+
     else:
         result['description'] = raw_description.get('content')
 
@@ -30,8 +30,3 @@ def get_check(url):
         result['h1'] = h1.text
 
     return result
-
-
-
-    
-

@@ -4,10 +4,8 @@ from page_analyzer.connector import send_in_db
 from page_analyzer.validator import validate
 from page_analyzer.checker import get_check
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from datetime import date
-import requests
 import os
 
 
@@ -27,22 +25,33 @@ def analyzer():
 
 @app.get('/urls')
 def urls():
-    query = "SELECT DISTINCT * FROM urls, url_checks"
+    query_in_urls = "SELECT DISTINCT * FROM urls"
+    query_in_url_checks = "SELECT DISTINCT * FROM url_checks"
 
-    response = send_in_db(query)
+    q = 'SELECT urls.id, urls.name, url_checks.created_at, url_checks.status_code FROM urls LEFT JOIN url_checks ON urls.id = url_checks.urls_id'
 
-    return render_template('list_urls_page.html', site=response)
+    site = send_in_db(query_in_urls)
+    checkup = send_in_db(q)
+
+    return render_template('list_urls_page.html', site=checkup)
 
 
 @app.route('/urls/<id>', methods=['GET', 'POST'])
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query = f"SELECT * FROM url_checks, urls WHERE url_id='{id}' ORDER BY url_checks.id DESC"
+    query = f"""SELECT * FROM url_checks, urls
+                WHERE url_id='{id}'
+                ORDER BY url_checks.id DESC"""
 
-    response= send_in_db(query, 'one')
+    response = send_in_db(query)
 
-    return render_template('url_page.html', messages=messages,  site=response, site_id=id)
+    return render_template(
+        'url_page.html',
+        messages=messages,
+        site=response,
+        site_id=id
+        )
 
 
 @app.post('/urls')
@@ -50,9 +59,10 @@ def post_analyzer():
     data = request.form.to_dict()
 
     url = data['url']
-    netloc = urlparse(url).netloc
 
-    errors = validate(netloc)
+    #netloc = urlparse(url).netloc
+
+    errors = validate(url)
 
     if errors:
         for error in errors:
@@ -61,11 +71,11 @@ def post_analyzer():
         return redirect(url_for('analyzer'))
 
     query_insert = f'''INSERT INTO urls (name, created_at)
-                       VALUES ('{netloc}', '{date.today()}')'''
+                       VALUES ('{url}', '{date.today()}')'''
 
     send_in_db(query_insert)
 
-    query_id = f'''SELECT MAX(id) FROM urls'''
+    query_id = 'SELECT MAX(id) FROM urls'
 
     id = send_in_db(query_id, 'one')
 
@@ -77,22 +87,12 @@ def post_analyzer():
 def post_checks(id):
     query_id = f'''SELECT name FROM urls WHERE id={id}'''
 
-    url = send_in_db(query_id)
+    url = send_in_db(query_id)[0][0]
 
-    urlssss = url[0][0]
+    result_check = get_check(url)
 
-    result_check = get_check(urlssss)
-
-    title = result_check['title']
-
-    h1 = result_check['h1']
-
-    description = result_check['description']
-
-    status_code = result_check['status_code']
-    
     query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
-                       VALUES ('{id}','{result_check['status_code']}', '{h1}', '{title}', '{description}', '{date.today()}')'''
+                       VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')'''
 
     send_in_db(query_insert)
 
