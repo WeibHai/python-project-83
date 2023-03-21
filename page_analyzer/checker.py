@@ -36,10 +36,10 @@ def get_check(url):
 
             else:
                 result['h1'] = h1.text
+            
+            return result
 
     except Exception as _ex:
         result = {}
         print('Error while working with PSQL', _ex)
         return result
-    
-    return result
