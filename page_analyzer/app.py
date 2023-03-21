@@ -43,7 +43,7 @@ def url(id):
 
     query_checks = f"""SELECT * FROM url_checks
                        WHERE url_id = {id}
-                       ORDER BY id ASC"""
+                       ORDER BY id DESC"""
 
     response_checks = send_in_db(query_checks)
 
@@ -96,6 +96,7 @@ def post_checks(id):
 
     try:
         result_check = get_check(url)
+
     except Exception as _ex:
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
