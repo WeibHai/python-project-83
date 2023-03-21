@@ -25,7 +25,7 @@
   {% if messages %}
     {% for alert in messages %}
     <div class="alert alert-{% if alert[0] == 'error' %}danger{% elif alert[0] == 'info' %}info{% else %}success{% endif %}" role="alert">
-        {{ alert[1] }}
+      {{ alert[1] }}
     </div>
     {% endfor %}
   {% endif %}

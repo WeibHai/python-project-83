@@ -68,7 +68,10 @@ def post_analyzer():
 
     if errors:
         for error in errors:
-            flash(error, 'error')
+            if error == 'Страница уже существует':
+                flash(error, 'info')
+            else:
+                flash(error, 'error')
 
         return redirect(url_for('analyzer'))
 
