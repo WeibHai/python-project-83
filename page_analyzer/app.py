@@ -1,9 +1,8 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request
 from page_analyzer.connector import send_in_db
-from page_analyzer.validator import validate
+from page_analyzer.validator import validate, get_normalization
 from page_analyzer.checker import get_check
-from urllib.parse import urlparse
 from dotenv import load_dotenv
 from datetime import date
 import os
@@ -33,7 +32,7 @@ def urls():
     return render_template('list_urls_page.html', site=response)
 
 
-@app.route('/urls/<id>', methods=['GET', 'POST'])
+@app.route('/urls/<int:id>', methods=['GET', 'POST'])
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
@@ -55,16 +54,18 @@ def post_analyzer():
 
     url = data['url']
 
-    errors = validate(url)
+    normalizated_url = get_normalization(url)
+
+    errors = validate(normalizated_url)
 
     if errors:
         for error in errors:
-            flash(error, 'warning')
+            flash(error, 'error')
 
         return redirect(url_for('analyzer'))
 
     query_insert = f'''INSERT INTO urls (name, created_at)
-                       VALUES ('{url}', '{date.today()}')'''
+                       VALUES ('{normalizated_url}', '{date.today()}')'''
 
     send_in_db(query_insert)
 
@@ -76,7 +77,7 @@ def post_analyzer():
     return redirect(url_for('url', id=id[0]))
 
 
-@app.post('/urls/<id>/checks')
+@app.post('/urls/<int:id>/checks')
 def post_checks(id):
     query_select = f'''SELECT name FROM urls WHERE id={id}'''
 

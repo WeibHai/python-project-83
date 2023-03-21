@@ -14,7 +14,7 @@
   <a class="navbar-brand" href="/">Анализатор страниц</a>
   <div id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link " href="/urls">Сайты</a></li>
+        <li class="nav-item"><a class="nav-link " href="{{ url_for('urls') }}">Сайты</a></li>
       </ul>
     </ul>
   </div>
@@ -23,11 +23,11 @@
   </header>
 
   {% if messages %}
-  <div>
-  {% for category, message in messages %}
-    <div class="alert alert-success" role="alert">{{ message }}</div>
-  {% endfor %}
-  </div>
+    {% for alert in messages %}
+    <div class="alert alert-{% if alert[0] == 'error' %}danger{% elif alert[0] == 'info' %}info{% else %}success{% endif %}" role="alert">
+        {{ alert[1] }}
+    </div>
+    {% endfor %}
   {% endif %}
 
   <main class="flex-grow-1">

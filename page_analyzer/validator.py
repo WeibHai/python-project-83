@@ -1,5 +1,13 @@
-import validators
 from page_analyzer.connector import send_in_db
+from urllib.parse import urlparse
+import validators
+
+
+def get_normalization(url):
+    raw_result = urlparse(url)
+    result = raw_result._replace(path='', params='', query='', fragment='')
+
+    return result.geturl()
 
 
 def validate(url):

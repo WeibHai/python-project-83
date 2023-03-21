@@ -1,19 +1,16 @@
-createdb  test_pg_analyzer
-createdb  pg_analyzer
-
 CREATE TABLE urls (
     id              bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name            varchar(255) UNIQUE,
-    created_at      date
+    name            varchar(255) UNIQUE NOT NULL,
+    created_at      date NOT NULL
 );
 
 
 CREATE TABLE url_checks (
     id              bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    url_id          bigint REFERENCES urls (id),
-    status_code     smallint,
+    url_id          bigint NOT NULL REFERENCES urls (id),
+    status_code     smallint NOT NULL,
     h1              varchar(255),
     title           varchar(255),
     description     varchar(255),
-    created_at      date
+    created_at      date NOT NULL
 );
