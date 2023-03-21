@@ -9,20 +9,8 @@ def send_in_db(query, fetch='all'):
 
     DATABASE_URL = os.getenv('DATABASE_URL')
 
-    #host = os.getenv("HOST")
-    #user = os.getenv("USER")
-    #password = os.getenv("PASSWORD")
-    #database = os.getenv("DATABASE")
-
     try:
-        #connection = db.connect(
-        #    host=host,
-        #    user=user,
-        #    password=password,
-        #    dbname=database
-        #    )
-
-        connection = db.connect(Database.DATABASE_URL)
+        connection = db.connect(DATABASE_URL)
 
         print('PSQL connection.')
 

@@ -54,32 +54,32 @@
     </table>
   </div>
 
-    <h2 class="mt-5 mb-3">Проверки</h2>
-    <form method="post" action="{{ url_for('post_checks', id=site_id) }}">
-    <input type="submit" class="btn btn-primary" value="Запустить проверку">
-    </form>
+  <h2 class="mt-5 mb-3">Проверки</h2>
+  <form method="post" action="{{ url_for('post_checks', id=site_id) }}">
+  <input type="submit" class="btn btn-primary" value="Запустить проверку">
+  </form>
     
   <div>
     <table class="table table-bordered table-hover mt-2" data-test="checks">
       <tbody>
-    <tr>
-        <th>ID</th>
-        <th>Код ответа</th>
-        <th>h1</th>
-        <th>title</th>
-        <th>description</th>
-        <th>Дата создания</th>
-    </tr>
-    {% for url in site %}
-    <tr>
-      <th>{{ url.3 }}</th>
-      <th>{{ url.5 }}</th>
-      <th>{{ url.6 }}</th>
-      <th>{{ url.7 }}</th>
-      <th>{{ url.8 }}</th>
-      <th>{{ url.9 }}</th>
-  </tr>
-  {% endfor %}
+        <tr>
+          <th>ID</th>
+          <th>Код ответа</th>
+          <th>h1</th>
+          <th>title</th>
+          <th>description</th>
+          <th>Дата создания</th>
+        </tr>
+        {% for check in checks %}
+        <tr>
+          <th>{{ check.0 }}</th>
+          <th>{{ check.2 }}</th>
+          <th>{{ check.3 }}</th>
+          <th>{{ check.4 }}</th>
+          <th>{{ check.5 }}</th>
+          <th>{{ check.6 }}</th>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

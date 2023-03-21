@@ -14,7 +14,7 @@ def get_check(url):
     raw_description = soup.find('meta', attrs={'name': 'description'})
 
     if raw_description is None:
-        result['description'] = 'хуй'
+        result['description'] = ''
 
     else:
         result['description'] = raw_description.get('content')

@@ -36,14 +36,22 @@ def urls():
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query = f"""SELECT * FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id WHERE urls.id = {id} ORDER BY url_checks.id DESC"""
+    query_site = f"""SELECT * FROM urls 
+                     WHERE id = {id}"""
 
-    response = send_in_db(query)
+    response_site = send_in_db(query_site)
+
+    query_checks = f"""SELECT * FROM url_checks
+                       WHERE url_id = {id}
+                       ORDER BY id ASC"""
+
+    response_checks = send_in_db(query_checks)
 
     return render_template(
         'url_page.html',
         messages=messages,
-        site=response,
+        site=response_site,
+        checks=response_checks,
         site_id=id
         )
 
@@ -83,7 +91,11 @@ def post_checks(id):
 
     url = send_in_db(query_select)[0][0]
 
-    result_check = get_check(url)
+    try:
+        result_check = get_check(url)
+    except Exception as _ex:
+        flash('Произошла ошибка при проверке', 'error')
+        return redirect(url_for('url', id=id))
 
     query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
                        VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')'''
