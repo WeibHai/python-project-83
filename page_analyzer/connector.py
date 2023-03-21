@@ -7,18 +7,23 @@ def send_in_db(query, fetch='all'):
 
     load_dotenv()
 
-    host = os.getenv("HOST")
-    user = os.getenv("USER")
-    password = os.getenv("PASSWORD")
-    database = os.getenv("DATABASE")
+    DATABASE_URL = os.getenv('DATABASE_URL')
+
+    #host = os.getenv("HOST")
+    #user = os.getenv("USER")
+    #password = os.getenv("PASSWORD")
+    #database = os.getenv("DATABASE")
 
     try:
-        connection = db.connect(
-            host=host,
-            user=user,
-            password=password,
-            dbname=database
-            )
+        #connection = db.connect(
+        #    host=host,
+        #    user=user,
+        #    password=password,
+        #    dbname=database
+        #    )
+
+        connection = db.connect(Database.DATABASE_URL)
+
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
