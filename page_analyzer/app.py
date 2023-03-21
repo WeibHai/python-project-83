@@ -1,5 +1,5 @@
 from flask import flash, url_for, redirect, get_flashed_messages
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 from page_analyzer.connector import send_in_db
 from page_analyzer.validator import validate, get_normalization
 from page_analyzer.checker import get_check
@@ -67,12 +67,14 @@ def post_analyzer():
     errors = validate(normalizated_url)
 
     if errors:
-        for error in errors:
-            if error == 'Страница уже существует':
-                flash(error, 'info')
-            else:
-                flash(error, 'error')
+        for error in errors.items():
+            if error[1] == 'Страница уже существует':
+                flash(error[1], 'info')
+                return redirect(url_for('url', id=errors['id']))
 
+            else:
+                flash(error[1], 'error')
+        
         return redirect(url_for('analyzer'))
 
     query_insert = f'''INSERT INTO urls (name, created_at)
@@ -96,7 +98,7 @@ def post_checks(id):
 
     try:
         result_check = get_check(url)
-
+    
     except Exception as _ex:
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
@@ -108,3 +110,11 @@ def post_checks(id):
 
     flash('Страница успешно проверенна', 'access')
     return redirect(url_for('url', id=id))
+
+    return render_template(
+        'url_page.html',
+        messages=messages,
+        site=response_site,
+        checks=response_checks,
+        site_id=id
+        )

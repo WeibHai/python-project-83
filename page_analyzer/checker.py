@@ -7,26 +7,28 @@ def get_check(url):
 
     response = requests.get(url)
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+    if response.status_code == 200:
 
-    result['status_code'] = response.status_code
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-    raw_description = soup.find('meta', attrs={'name': 'description'})
+        result['status_code'] = response.status_code
 
-    if raw_description is None:
-        result['description'] = ''
+        raw_description = soup.find('meta', attrs={'name': 'description'})
 
-    else:
-        result['description'] = raw_description.get('content')
+        if raw_description is None:
+            result['description'] = ''
 
-    result['title'] = soup.title.string
+        else:
+            result['description'] = raw_description.get('content')
 
-    h1 = soup.find('h1')
+        result['title'] = soup.title.string
 
-    if h1 is None:
-        result['h1'] = ''
+        h1 = soup.find('h1')
 
-    else:
-        result['h1'] = h1.text
+        if h1 is None:
+            result['h1'] = ''
+
+        else:
+            result['h1'] = h1.text
 
     return result

@@ -11,19 +11,22 @@ def get_normalization(url):
 
 
 def validate(url):
-    errors = []
+    errors = {}
     query = f"SELECT COUNT(*) FROM urls WHERE name = '{url}'"
 
+    query_id = f"SELECT id FROM urls WHERE name = '{url}'"
+
     if not url:
-        errors.append('URL обязателен')
+        errors['presence_url'] = 'URL обязателен'
 
     if not validators.url(url):
-        errors.append('Некорректный URL')
+        errors['valid'] = 'Некорректный URL'
 
     if len(url) > 255:
-        errors.append('URL превышает 255 символов')
+        errors['len'] = 'URL превышает 255 символов'
 
     if send_in_db(query, 'one')[0] > 0:
-        errors.append('Страница уже существует')
+        errors['presence_in_db'] = 'Страница уже существует'
+        errors['id'] = send_in_db(query_id)[0][0]
 
     return errors
