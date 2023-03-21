@@ -74,8 +74,8 @@ def post_analyzer():
 
             else:
                 flash(error[1], 'error')
-        
-        return redirect(url_for('analyzer'))
+        messages = get_flashed_messages(with_categories=True)
+        return make_response(render_template('main_page.html', messages=messages), 422)
 
     query_insert = f'''INSERT INTO urls (name, created_at)
                        VALUES ('{normalizated_url}', '{date.today()}')'''
