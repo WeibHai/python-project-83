@@ -3,16 +3,12 @@ import requests
 
 
 def get_check(url):
-    result = {}
-
-    print(url)
-
-    
-
     try:
         response = requests.get(url)
 
         if response.status_code == 200:
+
+            result = {}
 
             soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -26,13 +22,12 @@ def get_check(url):
             else:
                 result['description'] = raw_description.get('content')
 
-
-            title = soup.title.string
+            title = soup.title
 
             if title is None:
                 result['title'] = ''
             else:
-                result['title'] = title
+                result['title'] = title.string
 
             h1 = soup.find('h1')
 
@@ -43,6 +38,7 @@ def get_check(url):
                 result['h1'] = h1.text
 
     except Exception as _ex:
+        result = {}
         print('Error while working with PSQL', _ex)
         return result
     
