@@ -5,30 +5,45 @@ import requests
 def get_check(url):
     result = {}
 
-    response = requests.get(url)
+    print(url)
 
-    if response.status_code == 200:
+    
 
-        soup = BeautifulSoup(response.text, 'html.parser')
+    try:
+        response = requests.get(url)
 
-        result['status_code'] = response.status_code
+        if response.status_code == 200:
 
-        raw_description = soup.find('meta', attrs={'name': 'description'})
+            soup = BeautifulSoup(response.text, 'html.parser')
 
-        if raw_description is None:
-            result['description'] = ''
+            result['status_code'] = response.status_code
 
-        else:
-            result['description'] = raw_description.get('content')
+            raw_description = soup.find('meta', attrs={'name': 'description'})
 
-        result['title'] = soup.title.string
+            if raw_description is None:
+                result['description'] = ''
+            
+            else:
+                result['description'] = raw_description.get('content')
 
-        h1 = soup.find('h1')
 
-        if h1 is None:
-            result['h1'] = ''
+            title = soup.title.string
 
-        else:
-            result['h1'] = h1.text
+            if title is None:
+                result['title'] = ''
+            else:
+                result['title'] = title
 
+            h1 = soup.find('h1')
+
+            if h1 is None:
+                result['h1'] = ''
+
+            else:
+                result['h1'] = h1.text
+
+    except Exception as _ex:
+        print('Error while working with PSQL', _ex)
+        return result
+    
     return result

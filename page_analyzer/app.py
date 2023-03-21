@@ -96,26 +96,16 @@ def post_checks(id):
 
     url = send_in_db(query_select)[0][0]
 
-    try:
-        result_check = get_check(url)
-    
-    except Exception as _ex:
+    result_check = get_check(url)
+
+    if not result_check:
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
     
-    finally:
-        query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+    query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
                        VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')'''
 
-        send_in_db(query_insert)
+    send_in_db(query_insert)
 
-        flash('Страница успешно проверенна', 'access')
-        return redirect(url_for('url', id=id))
-
-        return render_template(
-            'url_page.html',
-            messages=messages,
-            site=response_site,
-            checks=response_checks,
-            site_id=id
-            )
+    flash('Страница успешно проверенна', 'access')
+    return redirect(url_for('url', id=id))
