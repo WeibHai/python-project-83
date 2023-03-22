@@ -19,9 +19,7 @@
     </ul>
   </div>
 </nav>
-
   </header>
-
   {% if messages %}
     {% for alert in messages %}
     <div class="alert alert-{% if alert[0] == 'error' %}danger{% elif alert[0] == 'info' %}info{% else %}success{% endif %}" role="alert">
@@ -29,12 +27,9 @@
     </div>
     {% endfor %}
   {% endif %}
-
   <main class="flex-grow-1">
     <div class="container-lg mt-3">
       <h1>Сайт: {{ site.0.1 }}</h1>
-
-    
   <div class="table-responsive">
     <table class="table table-bordered table-hover text-nowrap" data-test="url">
       <tbody>
@@ -53,38 +48,34 @@
       </tbody>
     </table>
   </div>
-
-  <h2 class="mt-5 mb-3">Проверки</h2>
-  <form method="post" action="{{ url_for('post_checks', id=site_id) }}">
-  <input type="submit" class="btn btn-primary" value="Запустить проверку">
-  </form>
-    
+      <h2 class="mt-5 mb-3">Проверки</h2>
+      <form method="post" action="{{ url_for('post_checks', id=site_id) }}">
+      <input type="submit" class="btn btn-primary" value="Запустить проверку">
+      </form>
   <div>
-    <table class="table table-hover table-bordered table-responsive my-5 py-5" data-test="checks">
-      <tbody>
-        <tr>
-          <th>ID</th>
-          <th>Код ответа</th>
-          <th>h1</th>
-          <th>title</th>
-          <th>description</th>
-          <th>Дата создания</th>
-        </tr>
-        {% for check in checks %}
-        <tr>
-          <td>{{ check.0 }}</td>
-          <td>{{ check.2 }}</td>
-          <td>{{ check.3 }}</td>
-          <td>{{ check.4 }}</td>
-          <td>{{ check.5 }}</td>
-          <td>{{ check.6 }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <table class="table table-bordered table-hover mt-2" data-test="checks">
+          <tbody>
+              <tr>
+                  <th>ID</th>
+                  <th>Код ответа</th>
+                  <th>h1</th>
+                  <th>title</th>
+                  <th>description</th>
+                  <th>Дата создания</th>
+              </tr>
+              {% for check in checks %}
+              <tr>
+                  <td>{{ check.0 }}</td>
+                  <td>{{ check.2 }}</td>
+                  <td>{{ check.3 }}</td>
+                  <td>{{ check.4 }}</td>
+                  <td>{{ check.5 }}</td>
+                  <td>{{ check.6 }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
   </div>
-
-    </div>
   </main>
   <footer class="border-top py-3 mt-5 flex-shrink-0">
   <div class="container-lg">
@@ -93,7 +84,6 @@
     </div>
   </div>
 </footer>
-  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
