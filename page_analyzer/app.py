@@ -107,5 +107,10 @@ def post_checks(id):
 
     send_in_db(query_insert)
 
-    flash('Страница успешно проверенна', 'access')
+    flash('Страница успешно проверена', 'access')
     return redirect(url_for('url', id=id))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
