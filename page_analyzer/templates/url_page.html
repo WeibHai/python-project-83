@@ -60,7 +60,7 @@
   </form>
     
   <div>
-    <table class="table table-bordered table-hover mt-2" data-test="checks">
+    <table class="table table-hover table-bordered table-responsive my-5 py-5" data-test="checks">
       <tbody>
         <tr>
           <th>ID</th>
@@ -72,12 +72,12 @@
         </tr>
         {% for check in checks %}
         <tr>
-          <th>{{ check.0 }}</th>
-          <th>{{ check.2 }}</th>
-          <th>{{ check.3 }}</th>
-          <th>{{ check.4 }}</th>
-          <th>{{ check.5 }}</th>
-          <th>{{ check.6 }}</th>
+          <td>{{ check.0 }}</td>
+          <td>{{ check.2 }}</td>
+          <td>{{ check.3 }}</td>
+          <td>{{ check.4 }}</td>
+          <td>{{ check.5 }}</td>
+          <td>{{ check.6 }}</td>
         </tr>
         {% endfor %}
       </tbody>
