@@ -19,7 +19,7 @@ def get_check(url):
 
             if raw_description is None:
                 result['description'] = ''
-            
+
             else:
                 result['description'] = raw_description.get('content')
 
@@ -37,7 +37,7 @@ def get_check(url):
 
             else:
                 result['h1'] = h1.text
-            
+
             return result
 
     except Exception as _ex:

@@ -24,8 +24,10 @@ def analyzer():
 
 @app.get('/urls')
 def urls():
-    query = """SELECT DISTINCT urls.id, urls.name, url_checks.created_at, url_checks.status_code
-               FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id ORDER BY urls.id DESC"""
+    query = """
+            SELECT DISTINCT urls.id, urls.name, url_checks.created_at, url_checks.status_code
+            FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id ORDER BY urls.id DESC
+            """
 
     response = send_in_db(query)
 
@@ -36,14 +38,18 @@ def urls():
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query_site = f"""SELECT * FROM urls 
-                     WHERE id = {id}"""
+    query_site = f"""
+                  SELECT * FROM urls
+                  WHERE id = {id}
+                  """
 
     response_site = send_in_db(query_site)
 
-    query_checks = f"""SELECT * FROM url_checks
-                       WHERE url_id = {id}
-                       ORDER BY id DESC"""
+    query_checks = f"""
+                    SELECT * FROM url_checks
+                    WHERE url_id = {id}
+                    ORDER BY id DESC
+                    """
 
     response_checks = send_in_db(query_checks)
 
@@ -53,7 +59,7 @@ def url(id):
         site=response_site,
         checks=response_checks,
         site_id=id
-        )
+    )
 
 
 @app.post('/urls')
@@ -77,8 +83,10 @@ def post_analyzer():
         messages = get_flashed_messages(with_categories=True)
         return make_response(render_template('main_page.html', messages=messages), 422)
 
-    query_insert = f'''INSERT INTO urls (name, created_at)
-                       VALUES ('{normalizated_url}', '{date.today()}')'''
+    query_insert = f'''
+                    INSERT INTO urls (name, created_at)
+                    VALUES ('{normalizated_url}', '{date.today()}')
+                    '''
 
     send_in_db(query_insert)
 
@@ -101,9 +109,11 @@ def post_checks(id):
     if not result_check:
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
-    
-    query_insert = f'''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
-                       VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')'''
+
+    query_insert = f'''
+                    INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+                    VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')
+                    '''
 
     send_in_db(query_insert)
 
