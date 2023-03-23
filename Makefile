@@ -20,4 +20,4 @@ schema-load:
 	psql test_pg_analyzer < database.sql
 
 all:
-	install db-create schema-load
+	install db-create schema-load start
