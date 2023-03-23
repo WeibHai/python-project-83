@@ -12,3 +12,12 @@ start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app
 
 test: poetry run pytest -vv
+
+db-create:
+	createdb test_pg_analyzer || echo 'skip'
+
+schema-load:
+	psql test_pg_analyzer < database.sql
+
+all:
+	db-create schema-load start
