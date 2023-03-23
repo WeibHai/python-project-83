@@ -20,6 +20,4 @@ schema-load:
 	psql test_pg_analyzer < database.sql
 
 all:
-	db-create schema-load
-
-.PHONY: install build
+	install db-create schema-load
