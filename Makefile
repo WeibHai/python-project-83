@@ -19,5 +19,10 @@ db-create:
 schema-load:
 	psql test_pg_analyzer < database.sql
 
+db-connect:
+	psql -d mark
+
 all:
-	db-create schema-load start
+	db-create schema-load
+
+.PHONY: install
