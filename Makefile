@@ -10,3 +10,12 @@ start:
 
 test:
 	poetry run pytest -vv
+
+all:
+	db-create shema-load
+
+db-create:
+	createdb test_pg_analyzer || echo 'skip'
+
+shema-load:
+	psql test_pg_analyzer < database.sql
