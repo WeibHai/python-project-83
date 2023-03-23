@@ -14,12 +14,12 @@ start:
 test: poetry run pytest -vv
 
 db-create:
-	createdb test_pgr || echo 'skip'
+	createdb test_pg_analyzer || echo 'skip'
 
 schema-load:
 	psql test_pg_analyzer < database.sql
 
-db-connect:
-	psql -d mark
+all:
+	db-create schema-load
 
 .PHONY: install
