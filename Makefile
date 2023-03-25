@@ -13,13 +13,4 @@ start:
 
 test: poetry run pytest -vv
 
-db-create:
-	createdb test_pg_analyzer || echo 'skip'
-
-schema-load:
-	psql test_pg_analyzer < database.sql
-
-all:
-	db-create schema-load
-
-.PHONY: install
+load: psql railway < database.sql
