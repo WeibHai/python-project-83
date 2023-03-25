@@ -17,3 +17,5 @@ load: psql railway < database.sql
 
 all:
 	load dev
+
+.PHONY: dev load all
