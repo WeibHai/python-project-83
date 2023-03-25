@@ -9,13 +9,6 @@ install:
 
 PORT ?= 8000
 start:
-	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app
+	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app; psql railway < database.sql
 
 test: poetry run pytest -vv
-
-load_db: psql railway < database.sql
-
-all:
-	load_db dev
-
-.PHONY: dev load_db all
