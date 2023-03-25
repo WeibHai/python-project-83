@@ -13,9 +13,9 @@ start:
 
 test: poetry run pytest -vv
 
-load: psql railway < database.sql
+load_db: psql railway < database.sql
 
 all:
 	load dev
 
-.PHONY: dev load all
+.PHONY: dev load_db all
