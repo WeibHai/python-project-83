@@ -1,6 +1,6 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
-from page_analyzer.connector import send_in_db
+from page_analyzer.connector import get_one_from_db, get_all_from_db, insert_in_db
 from page_analyzer.validator import validate, get_normalization
 from page_analyzer.checker import get_check
 from dotenv import load_dotenv
@@ -29,7 +29,9 @@ def urls():
             FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id ORDER BY urls.id DESC
             """
 
-    response = send_in_db(query)
+    response = get_all_from_db(query)
+
+    print(response)
 
     return render_template('list_urls_page.html', site=response)
 
@@ -43,7 +45,7 @@ def url(id):
                   WHERE id = {id}
                   """
 
-    response_site = send_in_db(query_site)
+    response_site = get_all_from_db(query_site)
 
     query_checks = f"""
                     SELECT * FROM url_checks
@@ -51,7 +53,7 @@ def url(id):
                     ORDER BY id DESC
                     """
 
-    response_checks = send_in_db(query_checks)
+    response_checks = get_all_from_db(query_checks)
 
     return render_template(
         'url_page.html',
@@ -88,11 +90,11 @@ def post_analyzer():
                     VALUES ('{normalizated_url}', '{date.today()}')
                     '''
 
-    send_in_db(query_insert)
+    insert_in_db(query_insert)
 
     query_select = 'SELECT MAX(id) FROM urls'
 
-    id = send_in_db(query_select, 'one')
+    id = get_one_from_db(query_select)
 
     flash('Страница успешно добавлена', 'access')
     return redirect(url_for('url', id=id[0]))
@@ -102,7 +104,7 @@ def post_analyzer():
 def post_checks(id):
     query_select = f'''SELECT name FROM urls WHERE id={id}'''
 
-    url = send_in_db(query_select)[0][0]
+    url = get_all_from_db(query_select)[0][0]
 
     result_check = get_check(url)
 
@@ -115,7 +117,7 @@ def post_checks(id):
                     VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')
                     '''
 
-    send_in_db(query_insert)
+    insert_in_db(query_insert)
 
     flash('Страница успешно проверена', 'access')
     return redirect(url_for('url', id=id))

@@ -3,31 +3,18 @@ import os
 from dotenv import load_dotenv
 
 
-def send_in_db(query, fetch='all'):
+load_dotenv()
 
-    load_dotenv()
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-    DATABASE_URL = os.getenv('DATABASE_URL')
-
+def insert_in_db(query):
     try:
         connection = db.connect(DATABASE_URL)
 
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            if 'SELECT' in query:
-                cursor.execute(query)
-
-                if fetch == 'one':
-                    response = cursor.fetchone()
-
-                else:
-                    response = cursor.fetchall()
-
-                return response
-
-            elif 'INSERT' in query:
-                cursor.execute(query)
+            cursor.execute(query)
 
     except Exception as _ex:
         print('Error while working with PSQL', _ex)
@@ -35,5 +22,49 @@ def send_in_db(query, fetch='all'):
     finally:
         if connection:
             connection.commit()
+            connection.close()
+            print('PSQL connection closed.')
+
+
+def get_one_from_db(query):
+    try:
+        connection = db.connect(DATABASE_URL)
+
+        print('PSQL connection.')
+
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            response = cursor.fetchone()
+
+            print(response)
+            return response
+
+    except Exception as _ex:
+        print('Error while working with PSQL', _ex)
+
+    finally:
+        if connection:
+            connection.close()
+            print('PSQL connection closed.')
+
+
+def get_all_from_db(query):
+    try:
+        connection = db.connect(DATABASE_URL)
+
+        print('PSQL connection.')
+
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            response = cursor.fetchall()
+            print(response)
+
+            return response
+
+    except Exception as _ex:
+        print('Error while working with PSQL', _ex)
+
+    finally:
+        if connection:
             connection.close()
             print('PSQL connection closed.')

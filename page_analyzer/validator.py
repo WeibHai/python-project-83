@@ -1,4 +1,4 @@
-from page_analyzer.connector import send_in_db
+from page_analyzer.connector import get_one_from_db, get_all_from_db
 from urllib.parse import urlparse
 import validators
 
@@ -25,8 +25,8 @@ def validate(url):
     if len(url) > 255:
         errors['len'] = 'URL превышает 255 символов'
 
-    if send_in_db(query, 'one')[0] > 0:
+    if get_one_from_db(query)[0] > 0:
         errors['presence_in_db'] = 'Страница уже существует'
-        errors['id'] = send_in_db(query_id)[0][0]
+        errors['id'] = get_all_from_db(query_id)[0][0]
 
     return errors
