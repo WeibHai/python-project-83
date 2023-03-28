@@ -13,3 +13,6 @@ start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app
 
 test: poetry run pytest -vv
+
+test-coverage:
+	poetry run pytest --cov=page_analyzer --cov-report xml
