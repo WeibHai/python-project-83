@@ -24,3 +24,6 @@ jobs:
       if: github.ref_name == 'main'
       env:
         CC_TEST_REPORTER_ID: 88dacfcde90b6b2f41d4ac35fdcc79d76c42ab697aeb442f73950c9cd9984166
+      with:
+        coverageCommand: make test-coverage
+        debug: true
