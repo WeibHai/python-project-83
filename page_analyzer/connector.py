@@ -7,6 +7,7 @@ load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+
 def insert_in_db(query):
     try:
         connection = db.connect(DATABASE_URL)

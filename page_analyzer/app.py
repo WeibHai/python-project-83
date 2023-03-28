@@ -1,6 +1,8 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
-from page_analyzer.connector import get_one_from_db, get_all_from_db, insert_in_db
+from page_analyzer.connector import get_one_from_db
+from page_analyzer.connector import get_all_from_db
+from page_analyzer.connector import insert_in_db
 from page_analyzer.validator import validate, get_normalization
 from page_analyzer.checker import get_check
 from dotenv import load_dotenv
@@ -25,13 +27,17 @@ def analyzer():
 @app.get('/urls')
 def urls():
     query = """
-            SELECT DISTINCT urls.id, urls.name, url_checks.created_at, url_checks.status_code
-            FROM urls LEFT JOIN url_checks ON urls.id = url_checks.url_id ORDER BY urls.id DESC
+            SELECT DISTINCT
+            urls.id,
+            urls.name,
+            url_checks.created_at,
+            url_checks.status_code
+            FROM urls
+            LEFT JOIN url_checks ON urls.id = url_checks.url_id
+            ORDER BY urls.id DESC
             """
 
     response = get_all_from_db(query)
-
-    print(response)
 
     return render_template('list_urls_page.html', site=response)
 
@@ -83,7 +89,9 @@ def post_analyzer():
             else:
                 flash(error[1], 'error')
         messages = get_flashed_messages(with_categories=True)
-        return make_response(render_template('main_page.html', messages=messages), 422)
+        return make_response(
+            render_template('main_page.html', messages=messages),
+            422)
 
     query_insert = f'''
                     INSERT INTO urls (name, created_at)
@@ -113,8 +121,20 @@ def post_checks(id):
         return redirect(url_for('url', id=id))
 
     query_insert = f'''
-                    INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
-                    VALUES ('{id}','{result_check['status_code']}', '{result_check['h1']}', '{result_check['title']}', '{result_check['description']}', '{date.today()}')
+                    INSERT INTO url_checks (
+                        url_id,
+                        status_code,
+                        h1,
+                        title,
+                        description,
+                        created_at)
+                    VALUES (
+                        '{id}',
+                        '{result_check['status_code']}',
+                        '{result_check['h1']}',
+                        '{result_check['title']}',
+                        '{result_check['description']}',
+                        '{date.today()}')
                     '''
 
     insert_in_db(query_insert)
