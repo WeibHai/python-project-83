@@ -58,7 +58,6 @@ def get_all_from_db(query):
         with connection.cursor() as cursor:
             cursor.execute(query)
             response = cursor.fetchall()
-            print(response)
 
             return response
 
