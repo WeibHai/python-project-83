@@ -15,4 +15,4 @@ start:
 test: poetry run pytest -vv
 
 test-coverage:
-	poetry run pytest --cov=page_analyzer --cov-report xml
+	poetry run pytest --cov
