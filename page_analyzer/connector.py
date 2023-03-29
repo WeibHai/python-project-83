@@ -15,7 +15,7 @@ def insert_in_db(query):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            print(query)
+            print('i', query)
             cursor.execute(query)
 
     except Exception as _ex:
@@ -35,6 +35,7 @@ def get_one_from_db(query):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
+            print('s', query)
             cursor.execute(query)
             response = cursor.fetchone()
 
@@ -57,6 +58,7 @@ def get_all_from_db(query):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
+            print('s', query)
             cursor.execute(query)
             response = cursor.fetchall()
 
