@@ -120,19 +120,9 @@ def post_checks(id):
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
 
-    query_insert = f'''INSERT INTO url_checks (url_id,
-                        status_code,
-                        h1,
-                        title,
-                        description,
-                        created_at)
-                       VALUES (
-                        '{id}',
-                        '{result_check['status_code']}',
-                        '{result_check['h1']}',
-                        '{result_check['title']}',
-                        '{result_check['description']}',
-                        '{date.today()}')
+    query_insert = f'''
+                    INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+                    VALUES ('{id}', '{result_check['status_code']}', '{result_check['h1']}','{result_check['title']}', '{result_check['description']}', '{date.today()}')
                     '''
 
     insert_in_db(query_insert)
