@@ -126,7 +126,7 @@ def post_checks(id):
                         title,
                         description,
                         created_at)
-                       яVALUES (
+                       VALUES (
                         '{id}',
                         '{result_check['status_code']}',
                         '{result_check['h1']}',
