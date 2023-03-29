@@ -15,6 +15,7 @@ def insert_in_db(query):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
+            print(query)
             cursor.execute(query)
 
     except Exception as _ex:
