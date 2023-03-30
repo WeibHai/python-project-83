@@ -8,7 +8,7 @@ load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-def insert_in_db(query, url_id, status_code, created_at, title, h1, description):
+def insert_in_url_checks(query, url_id, status_code, created_at, title, h1, description):
     try:
         connection = db.connect(DATABASE_URL)
 
@@ -16,9 +16,7 @@ def insert_in_db(query, url_id, status_code, created_at, title, h1, description)
 
         with connection.cursor() as cursor:
             print('i', query)
-            cursor.execute(query, (url_id, status_code,
-                                   created_at, title, h1,
-                                   description))
+            cursor.execute(query, (url_id, status_code, created_at, title, h1, description))
 
     except Exception as _ex:
         print('Error while working with PSQL', _ex)
@@ -30,7 +28,27 @@ def insert_in_db(query, url_id, status_code, created_at, title, h1, description)
             print('PSQL connection closed.')
 
 
-def get_one_from_db(query):
+def insert_in_urls(query, name, created_at):
+    try:
+        connection = db.connect(DATABASE_URL)
+
+        print('PSQL connection.')
+
+        with connection.cursor() as cursor:
+            print('i', query)
+            cursor.execute(query, (name, created_at))
+
+    except Exception as _ex:
+        print('Error while working with PSQL', _ex)
+
+    finally:
+        if connection:
+            connection.commit()
+            connection.close()
+            print('PSQL connection closed.')
+
+
+def get_one_from_db(query, *args):
     try:
         connection = db.connect(DATABASE_URL)
 
@@ -38,7 +56,7 @@ def get_one_from_db(query):
 
         with connection.cursor() as cursor:
             print('s', query)
-            cursor.execute(query)
+            cursor.execute(query, args)
             response = cursor.fetchone()
 
             print(response)
@@ -53,7 +71,7 @@ def get_one_from_db(query):
             print('PSQL connection closed.')
 
 
-def get_all_from_db(query):
+def get_all_from_db(query, *args):
     try:
         connection = db.connect(DATABASE_URL)
 
@@ -61,7 +79,7 @@ def get_all_from_db(query):
 
         with connection.cursor() as cursor:
             print('s', query)
-            cursor.execute(query)
+            cursor.execute(query, args)
             response = cursor.fetchall()
 
             return response

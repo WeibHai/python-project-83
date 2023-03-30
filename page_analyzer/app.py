@@ -2,7 +2,8 @@ from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
 from page_analyzer.connector import get_one_from_db
 from page_analyzer.connector import get_all_from_db
-from page_analyzer.connector import insert_in_db
+from page_analyzer.connector import insert_in_url_checks
+from page_analyzer.connector import insert_in_urls
 from page_analyzer.validator import validate, get_normalization
 from page_analyzer.checker import get_check
 from dotenv import load_dotenv
@@ -48,18 +49,17 @@ def url(id):
 
     query_site = f"""
                   SELECT * FROM urls
-                  WHERE id = {id}
+                  WHERE id = %s
                   """
-
-    response_site = get_all_from_db(query_site)
 
     query_checks = f"""
                     SELECT * FROM url_checks
-                    WHERE url_id = {id}
+                    WHERE url_id = %s
                     ORDER BY id DESC
                     """
 
-    response_checks = get_all_from_db(query_checks)
+    response_site = get_all_from_db(query_site, id)
+    response_checks = get_all_from_db(query_checks, id)
 
     return render_template(
         'url_page.html',
@@ -95,10 +95,10 @@ def post_analyzer():
 
     query_insert = f'''
                     INSERT INTO urls (name, created_at)
-                    VALUES ('{normalizated_url}', '{date.today()}')
+                    VALUES (%s, %s)
                     '''
 
-    insert_in_db(query_insert)
+    insert_in_urls(query_insert, normalizated_url, date.today())
 
     query_select = 'SELECT MAX(id) FROM urls'
 
@@ -110,9 +110,9 @@ def post_analyzer():
 
 @app.post('/urls/<int:id>/checks')
 def post_checks(id):
-    query_select = f'''SELECT name FROM urls WHERE id={id}'''
+    query_select = f'''SELECT name FROM urls WHERE id=%s'''
 
-    url = get_all_from_db(query_select)[0][0]
+    url = get_all_from_db(query_select, id)[0][0]
 
     result_check = get_check(url)
 
@@ -125,7 +125,7 @@ def post_checks(id):
                     VALUES (%s, %s, %s, %s, %s, %s)
                     '''
 
-    insert_in_db(query_insert, id, result_check['status_code'], result_check['h1'], result_check['title'], result_check['description'], date.today())
+    insert_in_url_checks(query_insert, id, result_check['status_code'], result_check['h1'], result_check['title'], result_check['description'], date.today())
 
     flash('Страница успешно проверена', 'access')
     return redirect(url_for('url', id=id))
