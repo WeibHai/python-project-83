@@ -8,7 +8,7 @@ load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-def insert_in_url_checks(query, url_id, status_code, created_at, title, h1, description):
+def insert_in_url_checks(query, *args):
     try:
         connection = db.connect(DATABASE_URL)
 
@@ -16,7 +16,7 @@ def insert_in_url_checks(query, url_id, status_code, created_at, title, h1, desc
 
         with connection.cursor() as cursor:
             print('i', query)
-            cursor.execute(query, (url_id, status_code, created_at, title, h1, description))
+            cursor.execute(query, (args))
 
     except Exception as _ex:
         print('Error while working with PSQL', _ex)

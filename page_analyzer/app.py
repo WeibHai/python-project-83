@@ -34,7 +34,8 @@ def urls():
             url_checks.created_at,
             url_checks.status_code
             FROM urls
-            LEFT JOIN url_checks ON urls.id = url_checks.url_id
+            LEFT JOIN url_checks
+            ON urls.id = url_checks.url_id
             ORDER BY urls.id DESC
             """
 
@@ -47,16 +48,16 @@ def urls():
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
-    query_site = f"""
-                  SELECT * FROM urls
-                  WHERE id = %s
-                  """
+    query_site = """
+                 SELECT * FROM urls
+                 WHERE id = %s
+                 """
 
-    query_checks = f"""
-                    SELECT * FROM url_checks
-                    WHERE url_id = %s
-                    ORDER BY id DESC
-                    """
+    query_checks = """
+                   SELECT * FROM url_checks
+                   WHERE url_id = %s
+                   ORDER BY id DESC
+                   """
 
     response_site = get_all_from_db(query_site, id)
     response_checks = get_all_from_db(query_checks, id)
@@ -93,10 +94,10 @@ def post_analyzer():
             render_template('main_page.html', messages=messages),
             422)
 
-    query_insert = f'''
-                    INSERT INTO urls (name, created_at)
-                    VALUES (%s, %s)
-                    '''
+    query_insert = '''
+                   INSERT INTO urls (name, created_at)
+                   VALUES (%s, %s)
+                   '''
 
     insert_in_urls(query_insert, normalizated_url, date.today())
 
@@ -110,7 +111,7 @@ def post_analyzer():
 
 @app.post('/urls/<int:id>/checks')
 def post_checks(id):
-    query_select = f'''SELECT name FROM urls WHERE id=%s'''
+    query_select = '''SELECT name FROM urls WHERE id=%s'''
 
     url = get_all_from_db(query_select, id)[0][0]
 
@@ -120,12 +121,26 @@ def post_checks(id):
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('url', id=id))
 
-    query_insert = f'''
-                    INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                    '''
+    query_insert = '''
+                   INSERT INTO url_checks (
+                    url_id,
+                    status_code,
+                    h1,
+                    title,
+                    description,
+                    created_at)
+                   VALUES (%s, %s, %s, %s, %s, %s)
+                   '''
 
-    insert_in_url_checks(query_insert, id, result_check['status_code'], result_check['h1'], result_check['title'], result_check['description'], date.today())
+    insert_in_url_checks(
+        query_insert,
+        id,
+        result_check['status_code'],
+        result_check['h1'],
+        result_check['title'],
+        result_check['description'],
+        date.today()
+    )
 
     flash('Страница успешно проверена', 'access')
     return redirect(url_for('url', id=id))
