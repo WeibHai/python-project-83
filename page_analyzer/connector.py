@@ -15,7 +15,6 @@ def insert_in_url_checks(query, *args):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            print('i', query)
             cursor.execute(query, (args))
 
     except Exception as _ex:
@@ -35,7 +34,6 @@ def insert_in_urls(query, name, created_at):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            print('i', query)
             cursor.execute(query, (name, created_at))
 
     except Exception as _ex:
@@ -55,7 +53,6 @@ def get_one_from_db(query, *args):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            print('s', query)
             cursor.execute(query, args)
             response = cursor.fetchone()
 
@@ -78,7 +75,6 @@ def get_all_from_db(query, *args):
         print('PSQL connection.')
 
         with connection.cursor() as cursor:
-            print('s', query)
             cursor.execute(query, args)
             response = cursor.fetchall()
 
