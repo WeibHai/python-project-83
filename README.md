@@ -13,4 +13,4 @@ To install the application, clone the repository to the directory of your choice
 
 <a href="https://codeclimate.com/github/WeibHai/python-project-83/maintainability"><img src="https://api.codeclimate.com/v1/badges/2c56adae486da2256747/maintainability" /></a>
 
-![Deploy APP](xref:python-project-83-production-0301.up.railway.app)
+![Deploy APP](https://python-project-83-production-0301.up.railway.app/)

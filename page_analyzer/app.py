@@ -27,17 +27,15 @@ def analyzer():
 
 @app.get('/urls')
 def urls():
-    query = """
-            SELECT DISTINCT
-            urls.id,
-            urls.name,
-            url_checks.created_at,
-            url_checks.status_code
-            FROM urls
-            LEFT JOIN url_checks
-            ON urls.id = url_checks.url_id
+    query = '''
+            SELECT urls.id, urls.name, url_checks.created_at,
+            url_checks.status_code FROM urls
+            LEFT JOIN url_checks ON urls.id = url_checks.url_id
+            WHERE url_checks.url_id IS NULL
+            OR url_checks.id = (SELECT MAX(url_checks.id) FROM url_checks
+            WHERE url_checks.url_id = urls.id)
             ORDER BY urls.id DESC
-            """
+            '''
 
     response = get_all_from_db(query)
 
