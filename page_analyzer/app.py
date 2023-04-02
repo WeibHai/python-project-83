@@ -1,11 +1,10 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
-from page_analyzer.connector import get_one_from_db
-from page_analyzer.connector import get_all_from_db
-from page_analyzer.connector import insert_in_url_checks
-from page_analyzer.connector import insert_in_urls
 from page_analyzer.validator import validate, get_normalization
-from page_analyzer.checker import get_check
+from page_analyzer.other_func import get_one_from_db
+from page_analyzer.other_func import get_all_from_db
+from page_analyzer.other_func import insert_in_db
+from page_analyzer.other_func import get_check
 from dotenv import load_dotenv
 from datetime import date
 import os
@@ -42,7 +41,7 @@ def urls():
     return render_template('list_urls_page.html', site=response)
 
 
-@app.route('/urls/<int:id>', methods=['GET', 'POST'])
+@app.route('/urls/<int:id>')
 def url(id):
     messages = get_flashed_messages(with_categories=True)
 
@@ -97,7 +96,7 @@ def post_analyzer():
                    VALUES (%s, %s)
                    '''
 
-    insert_in_urls(query_insert, normalizated_url, date.today())
+    insert_in_db(query_insert, normalizated_url, date.today())
 
     query_select = 'SELECT MAX(id) FROM urls'
 
@@ -130,7 +129,7 @@ def post_checks(id):
                    VALUES (%s, %s, %s, %s, %s, %s)
                    '''
 
-    insert_in_url_checks(
+    insert_in_db(
         query_insert,
         id,
         result_check['status_code'],

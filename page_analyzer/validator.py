@@ -1,4 +1,5 @@
-from page_analyzer.connector import get_one_from_db, get_all_from_db
+from page_analyzer.other_func import get_one_from_db
+from page_analyzer.other_func import get_all_from_db
 from urllib.parse import urlparse
 import validators
 
