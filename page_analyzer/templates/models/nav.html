@@ -9,22 +9,15 @@
     <title>Анализатор страниц</title>
   </head>
   <body class="min-vh-100 d-flex flex-column">
-  <header class="flex-shrink-0">
+    <header class="flex-shrink-0">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark px-3">
-  <a class="navbar-brand" href="/">Анализатор страниц</a>
-  <div id="navbarNav">
+    <a class="navbar-brand" href="/">Анализатор страниц</a>
+    <div id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link " href="{{ url_for('urls') }}">Сайты</a></li>
       </ul>
-    </ul>
-  </div>
-</nav>
-<div>
-{% if messages %}
-  {% for alert in messages %}
-  <div class="alert alert-{% if alert[0] == 'error' %}danger{% elif alert[0] == 'info' %}info{% else %}success{% endif %}" role="alert">
-    {{ alert[1] }}
-  </div>
-  {% endfor %}
-{% endif %}
-</div>
+    </div>
+    </nav>
+    </header>
+  </body>
+

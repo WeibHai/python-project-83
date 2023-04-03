@@ -1,8 +1,10 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
-from page_analyzer.validator import validate, get_normalization
+from page_analyzer.validator import validate
+from page_analyzer.other_func import get_normalization
 from page_analyzer.other_func import get_one_from_db
 from page_analyzer.other_func import get_all_from_db
+from page_analyzer.other_func import presence_in_db
 from page_analyzer.other_func import insert_in_db
 from page_analyzer.other_func import get_check
 from dotenv import load_dotenv
@@ -76,20 +78,25 @@ def post_analyzer():
 
     normalizated_url = get_normalization(url)
 
+    url_id = presence_in_db(normalizated_url)
+
+    if url_id:
+        flash('Страница уже существует', 'info')
+        return redirect(url_for('url', id=url_id))
+
     errors = validate(normalizated_url)
 
     if errors:
-        for error in errors.items():
-            if error[1] == 'Страница уже существует':
-                flash(error[1], 'info')
-                return redirect(url_for('url', id=errors['id']))
+        for error in errors:
+            flash(error, 'error')
 
-            else:
-                flash(error[1], 'error')
         messages = get_flashed_messages(with_categories=True)
-        return make_response(
-            render_template('main_page.html', messages=messages),
-            422)
+
+        result = render_template('main_page.html',
+                                 messages=messages,
+                                 saves_url=normalizated_url)
+
+        return make_response(result, 422)
 
     query_insert = '''
                    INSERT INTO urls (name, created_at)
