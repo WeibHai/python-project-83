@@ -1,21 +1,4 @@
 from urllib.parse import urlparse
-from dotenv import load_dotenv
-from bs4 import BeautifulSoup
-import psycopg2 as db
-import psycopg2.extras
-import logging
-import requests
-import os
-
-
-load_dotenv()
-
-DATABASE_URL = os.getenv('DATABASE_URL')
-
-LOG_MESS = {
-    'c': 'PSQL connection.',
-    'd': 'PSQL connection closed.',
-    'e': 'Error during check!'}
 
 
 def get_title(soup):

@@ -4,7 +4,6 @@ from page_analyzer.parser import get_title
 from page_analyzer.parser import get_h1
 import logging
 import requests
-import os
 
 
 def get_check(url):

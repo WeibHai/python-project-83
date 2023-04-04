@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 import psycopg2 as db
 import psycopg2.extras
 import logging
-import requests
 import os
 
 
