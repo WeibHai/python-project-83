@@ -110,7 +110,7 @@ def post_analyzer():
     id = get_one_from_db(query_select)
 
     flash('Страница успешно добавлена', 'access')
-    return redirect(url_for('url', id=id['id']))
+    return redirect(url_for('url', id=*id))
 
 
 @app.post('/urls/<int:id>/checks')
