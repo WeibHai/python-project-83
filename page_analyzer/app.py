@@ -1,5 +1,5 @@
-from flask import flash, url_for, redirect, get_flashed_messages
-from flask import Flask, render_template, request, make_response
+from flask import flash, url_for, redirect, make_response
+from flask import Flask, render_template, request
 from page_analyzer.validator import validate
 from page_analyzer.parser import get_normalization
 from page_analyzer.bd import get_one_from_db
