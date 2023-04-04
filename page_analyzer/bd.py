@@ -31,7 +31,7 @@ def get_one_from_db(query, *args):
 
     logging.info(LOG_MESS['c'])
 
-    with connection.cursor(cursor_factory=db.extras.DictCursor) as cursor:
+    with connection.cursor() as cursor:
         cursor.execute(query, args)
         response = cursor.fetchone()
 
