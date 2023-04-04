@@ -21,8 +21,6 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def analyzer():
-    messages = get_flashed_messages(with_categories=True)
-
     return render_template('main_page.html', messages=messages)
 
 
@@ -45,8 +43,6 @@ def urls():
 
 @app.route('/urls/<int:id>')
 def url(id):
-    messages = get_flashed_messages(with_categories=True)
-
     query_site = """
                  SELECT * FROM urls
                  WHERE id = %s
@@ -89,8 +85,6 @@ def post_analyzer():
     if errors:
         for error in errors:
             flash(error, 'error')
-
-        messages = get_flashed_messages(with_categories=True)
 
         result = render_template('main_page.html',
                                  messages=messages,
