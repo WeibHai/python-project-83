@@ -117,9 +117,9 @@ def post_analyzer():
 def post_checks(id):
     query_select = '''SELECT name FROM urls WHERE id=%s'''
 
-    response = get_all_from_db(query_select, id)
+    url = get_all_from_db(query_select, id)
 
-    result_check = get_check(response['url'])
+    result_check = get_check(url)[0][0]
 
     if not result_check:
         flash('Произошла ошибка при проверке', 'error')
