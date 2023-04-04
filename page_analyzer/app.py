@@ -117,11 +117,11 @@ def post_analyzer():
 
 @app.post('/urls/<int:id>/checks')
 def post_checks(id):
-    query_select = '''SELECT name FROM urls WHERE id=%s'''
+    query_select = '''SELECT * FROM urls WHERE id=%s'''
 
-    url = get_one_from_db(query_select, id)
+    response = get_one_from_db(query_select, id)
 
-    result_check = get_check(url)
+    result_check = get_check(response['name'])
 
     if not result_check:
         flash('Произошла ошибка при проверке', 'error')
