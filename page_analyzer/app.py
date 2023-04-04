@@ -21,7 +21,7 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def analyzer():
-    return render_template('main_page.html', messages=messages)
+    return render_template('main_page.html')
 
 
 @app.get('/urls')
@@ -59,7 +59,6 @@ def url(id):
 
     return render_template(
         'url_page.html',
-        messages=messages,
         site=response_site,
         checks=response_checks,
         site_id=id
@@ -87,7 +86,6 @@ def post_analyzer():
             flash(error, 'error')
 
         result = render_template('main_page.html',
-                                 messages=messages,
                                  saves_url=url)
 
         return make_response(result, 422)
