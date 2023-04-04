@@ -83,7 +83,7 @@ def post_analyzer():
 
     if errors:
         for error in errors:
-            flash(error, 'error')
+            flash(error, 'danger')
 
         result = render_template('main_page.html',
                                  saves_url=url)
@@ -103,7 +103,7 @@ def post_analyzer():
 
     id = response['id']
 
-    flash('Страница успешно добавлена', 'access')
+    flash('Страница успешно добавлена', 'success')
     return redirect(url_for('url', id=id))
 
 
@@ -116,7 +116,7 @@ def post_checks(id):
     result_check = get_check(response['name'])
 
     if not result_check:
-        flash('Произошла ошибка при проверке', 'error')
+        flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('url', id=id))
 
     query_insert = '''
@@ -140,7 +140,7 @@ def post_checks(id):
         date.today()
     )
 
-    flash('Страница успешно проверена', 'access')
+    flash('Страница успешно проверена', 'success')
     return redirect(url_for('url', id=id))
 
 
