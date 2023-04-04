@@ -109,7 +109,7 @@ def post_analyzer():
 
     response = get_one_from_db(query_select)
 
-    id = *response
+    id = response.values()
 
     flash('Страница успешно добавлена', 'access')
     return redirect(url_for('url', id=id))
