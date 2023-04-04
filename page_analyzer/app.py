@@ -107,7 +107,8 @@ def post_analyzer():
 
     query_select = 'SELECT MAX(id) FROM urls'
 
-    id = get_one_from_db(query_select)
+    id = get_one_from_db(query_select)['id']
+    print(id)
 
     flash('Страница успешно добавлена', 'access')
     return redirect(url_for('url', id=id))
