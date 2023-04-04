@@ -105,11 +105,11 @@ def post_analyzer():
 
     insert_in_db(query_insert, normalizated_url, date.today())
 
-    query_select = 'SELECT MAX(id) FROM urls'
+    query_select = 'SELECT * FROM urls ORDER BY id DESC LIMIT 1'
 
     response = get_one_from_db(query_select)
 
-    id = response.values()
+    id = response['id']
 
     flash('Страница успешно добавлена', 'access')
     return redirect(url_for('url', id=id))
