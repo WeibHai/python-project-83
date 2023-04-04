@@ -24,6 +24,6 @@ def get_check(url):
         else:
             raise ('No connection to site')
 
-    except Exceptionx:
+    except Exception:
         logging.error('Error during check!')
         return {}
