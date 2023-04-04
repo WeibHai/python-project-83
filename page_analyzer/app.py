@@ -1,12 +1,12 @@
 from flask import flash, url_for, redirect, get_flashed_messages
 from flask import Flask, render_template, request, make_response
 from page_analyzer.validator import validate
-from page_analyzer.other_func import get_normalization
-from page_analyzer.other_func import get_one_from_db
-from page_analyzer.other_func import get_all_from_db
-from page_analyzer.other_func import presence_in_db
-from page_analyzer.other_func import insert_in_db
-from page_analyzer.other_func import get_check
+from page_analyzer.parser import get_normalization
+from page_analyzer.bd import get_one_from_db
+from page_analyzer.bd import get_all_from_db
+from page_analyzer.bd import presence_in_db
+from page_analyzer.bd import insert_in_db
+from page_analyzer.check import get_check
 from dotenv import load_dotenv
 from datetime import date
 import os
