@@ -110,16 +110,16 @@ def post_analyzer():
     id = get_one_from_db(query_select)
 
     flash('Страница успешно добавлена', 'access')
-    return redirect(url_for('url', id=id[0]))
+    return redirect(url_for('url', id=id['id']))
 
 
 @app.post('/urls/<int:id>/checks')
 def post_checks(id):
     query_select = '''SELECT name FROM urls WHERE id=%s'''
 
-    url = get_all_from_db(query_select, id)[0][0]
+    response = get_all_from_db(query_select, id)
 
-    result_check = get_check(url)
+    result_check = get_check(response['url'])
 
     if not result_check:
         flash('Произошла ошибка при проверке', 'error')
