@@ -4,21 +4,21 @@
   {% include 'models/flash.html' %}
   <main class="flex-grow-1">
     <div class="container-lg mt-3">
-      <h1>Сайт: {{ site.0.1 }}</h1>
+      <h1>Сайт: {{ site.name }}</h1>
   <div class="table-responsive">
     <table class="table table-bordered table-hover text-nowrap" data-test="url">
       <tbody>
         <tr>
           <td>ID</td>
-          <td>{{ site.0.0 }}</td>
+          <td>{{ site.id }}</td>
         </tr>
         <tr>
           <td>Имя</td>
-          <td>{{ site.0.1 }}</td>
+          <td>{{ site.name }}</td>
         </tr>
         <tr>
           <td>Дата создания</td>
-          <td>{{ site.0.2 }}</td>
+          <td>{{ site.created_at }}</td>
         </tr>
       </tbody>
     </table>
