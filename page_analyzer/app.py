@@ -94,7 +94,7 @@ def post_analyzer():
 
         result = render_template('main_page.html',
                                  messages=messages,
-                                 saves_url=normalizated_url)
+                                 saves_url=url)
 
         return make_response(result, 422)
 
