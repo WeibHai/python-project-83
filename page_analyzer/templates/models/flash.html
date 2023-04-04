@@ -1,13 +1,11 @@
 <div class="alert-container">
 {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
+{% if messages %}
+  <div class="alert-container">
     {% for category, message in messages %}
-    <div class="alert alert-{{ category }}" role="alert">
-      <li class="alert alert-{{ category }}>{{ message }}</li>
-    </div>
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}</div>
     {% endfor %}
-    </ul>
-  {% endif %}
+  </div>
+{% endif %}
 {% endwith %}
 </div>
