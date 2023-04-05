@@ -1,5 +1,3 @@
-from urllib.parse import urlparse
-
 
 def get_title(soup):
     result = soup.title
@@ -23,10 +21,3 @@ def get_description(soup):
         return ''
     else:
         return result.get('content')
-
-
-def normalize_url(url):
-    raw_result = urlparse(url)
-    result = raw_result._replace(path='', params='', query='', fragment='')
-
-    return result.geturl()
