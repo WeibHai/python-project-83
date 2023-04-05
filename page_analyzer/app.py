@@ -71,15 +71,15 @@ def post_analyzer():
 
     url = data['url']
 
-    norm_url = normalize_url(url)
+    normalized = normalize_url(url)
 
-    url_id = find_in_db(norm_url)
+    url_id = find_in_db(normalized)
 
     if url_id:
         flash('Страница уже существует', 'info')
         return redirect(url_for('url', id=url_id))
 
-    errors = validate(norm_url)
+    errors = validate(normalized)
 
     if errors:
         for error in errors:
@@ -95,7 +95,7 @@ def post_analyzer():
                    VALUES (%s, %s)
                    '''
 
-    insert_in_db(query_insert, normalizated_url, date.today())
+    insert_in_db(query_insert, normalized, date.today())
 
     query_select = 'SELECT * FROM urls ORDER BY id DESC LIMIT 1'
 
