@@ -2,10 +2,10 @@ from flask import flash, url_for, redirect, make_response
 from flask import Flask, render_template, request
 from page_analyzer.validator import validate
 from page_analyzer.parser import normalize_url
-from page_analyzer.bd import get_one_from_db
-from page_analyzer.bd import get_all_from_db
-from page_analyzer.bd import find_in_db
-from page_analyzer.bd import insert_in_db
+from page_analyzer.db import get_one_from_db
+from page_analyzer.db import get_all_from_db
+from page_analyzer.db import find_in_db
+from page_analyzer.db import insert_in_db
 from page_analyzer.check import get_check
 from dotenv import load_dotenv
 from datetime import date
