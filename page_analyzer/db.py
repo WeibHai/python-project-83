@@ -59,6 +59,7 @@ def find_in_db(url):
     query = "SELECT * FROM urls WHERE name = %s"
 
     response = get_all_from_db(query, url)
+    print(response)
 
     if response:
         return response['id']
