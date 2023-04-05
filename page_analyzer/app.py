@@ -1,11 +1,11 @@
 from flask import flash, url_for, redirect, make_response
 from flask import Flask, render_template, request
 from page_analyzer.validator import validate
-from page_analyzer.parser import get_normalization
-from page_analyzer.bd import get_one_from_db
-from page_analyzer.bd import get_all_from_db
-from page_analyzer.bd import presence_in_db
-from page_analyzer.bd import insert_in_db
+from page_analyzer.parser import normalize_url
+from page_analyzer.db import get_one_from_db
+from page_analyzer.db import get_all_from_db
+from page_analyzer.db import find_in_db
+from page_analyzer.db import insert_in_db
 from page_analyzer.check import get_check
 from dotenv import load_dotenv
 from datetime import date
@@ -71,15 +71,15 @@ def post_analyzer():
 
     url = data['url']
 
-    normalizated_url = get_normalization(url)
+    normalized = normalize_url(url)
 
-    url_id = presence_in_db(normalizated_url)
+    url_id = find_in_db(normalized)
 
     if url_id:
         flash('Страница уже существует', 'info')
         return redirect(url_for('url', id=url_id))
 
-    errors = validate(normalizated_url)
+    errors = validate(normalized)
 
     if errors:
         for error in errors:
@@ -95,7 +95,7 @@ def post_analyzer():
                    VALUES (%s, %s)
                    '''
 
-    insert_in_db(query_insert, normalizated_url, date.today())
+    insert_in_db(query_insert, normalized, date.today())
 
     query_select = 'SELECT * FROM urls ORDER BY id DESC LIMIT 1'
 
