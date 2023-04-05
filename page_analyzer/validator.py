@@ -6,6 +6,7 @@ def validate(url):
 
     if url is None:
         errors.append('URL обязателен')
+        return errors
 
     if not validators.url(url):
         errors.append('Некорректный URL')
