@@ -54,7 +54,7 @@ def url(id):
                    ORDER BY id DESC
                    """
 
-    response_site = get_all_from_db(query_site, id)
+    response_site = get_one_from_db(query_site, id)
     response_checks = get_all_from_db(query_checks, id)
 
     return render_template(
