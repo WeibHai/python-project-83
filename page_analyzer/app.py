@@ -71,15 +71,15 @@ def post_analyzer():
 
     url = data['url']
 
-    normalize_url = get_normalization(url)
+    norm_url = normalize_url(url)
 
-    url_id = find_in_db(normalizated_url)
+    url_id = find_in_db(norm_url)
 
     if url_id:
         flash('Страница уже существует', 'info')
         return redirect(url_for('url', id=url_id))
 
-    errors = validate(normalizated_url)
+    errors = validate(norm_url)
 
     if errors:
         for error in errors:
