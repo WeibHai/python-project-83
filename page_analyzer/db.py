@@ -58,8 +58,7 @@ def get_all_from_db(query, *args):
 def find_in_db(url):
     query = "SELECT * FROM urls WHERE name = %s"
 
-    response = get_all_from_db(query, url)
-    logging.error(response)
+    response = get_one_from_db(query, url)
 
     if response:
         return response['id']
