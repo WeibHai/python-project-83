@@ -4,7 +4,7 @@ import validators
 def validate(url):
     errors = []
 
-    if not url:
+    if url is None:
         errors.append('URL обязателен')
 
     if not validators.url(url):
