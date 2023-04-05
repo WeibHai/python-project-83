@@ -25,7 +25,7 @@ def get_description(soup):
         return result.get('content')
 
 
-def get_normalization(url):
+def normalize_url(url):
     raw_result = urlparse(url)
     result = raw_result._replace(path='', params='', query='', fragment='')
 

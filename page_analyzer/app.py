@@ -1,10 +1,10 @@
 from flask import flash, url_for, redirect, make_response
 from flask import Flask, render_template, request
 from page_analyzer.validator import validate
-from page_analyzer.parser import get_normalization
+from page_analyzer.parser import normalize_url
 from page_analyzer.bd import get_one_from_db
 from page_analyzer.bd import get_all_from_db
-from page_analyzer.bd import presence_in_db
+from page_analyzer.bd import find_in_db
 from page_analyzer.bd import insert_in_db
 from page_analyzer.check import get_check
 from dotenv import load_dotenv
@@ -71,9 +71,9 @@ def post_analyzer():
 
     url = data['url']
 
-    normalizated_url = get_normalization(url)
+    normalize_url = get_normalization(url)
 
-    url_id = presence_in_db(normalizated_url)
+    url_id = find_in_db(normalizated_url)
 
     if url_id:
         flash('Страница уже существует', 'info')
