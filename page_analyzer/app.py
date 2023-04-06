@@ -6,7 +6,7 @@ from page_analyzer.db import get_one_from_db
 from page_analyzer.db import get_all_from_db
 from page_analyzer.db import find_in_db
 from page_analyzer.db import insert_in_db
-from page_analyzer.check import get_check
+from page_analyzer.parser import get_check
 from dotenv import load_dotenv
 from datetime import date
 import requests
