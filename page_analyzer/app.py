@@ -58,7 +58,7 @@ def url(id):
     response_checks = get_all_from_db(query_checks, id)
 
     return render_template(
-        'url_page.html',
+        'url.html',
         site=response_site,
         checks=response_checks,
         site_id=id
