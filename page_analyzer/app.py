@@ -111,14 +111,14 @@ def post_checks(id):
 
     url = get_one_from_db(query_select, id)['name']
 
-    result_check = requests.get(url)
+    requests_url = requests.get(url)
 
-    if result_check.status_code != 200:
+    if requests_url.status_code != 200:
         flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('url', id=id))
 
     else:
-        get_check(result_check)
+        result_check = get_check(requests_url)
 
         query_insert = '''
                        INSERT INTO url_checks (
