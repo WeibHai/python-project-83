@@ -1,4 +1,4 @@
-from flask import flash, url_for, redirect, make_response
+from flask import flash, url_for, redirect
 from flask import Flask, render_template, request
 from page_analyzer.validator import validate
 from page_analyzer.normalizator import normalize_url
