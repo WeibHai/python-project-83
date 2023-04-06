@@ -1,4 +1,3 @@
-
 def get_title(soup):
     result = soup.title
     if result is None:
