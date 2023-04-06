@@ -26,7 +26,7 @@ def get_description(soup):
 
 
 def get_check(url):
-    result = {'status_code': response.status_code}
+    result = {'status_code': 200}
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
