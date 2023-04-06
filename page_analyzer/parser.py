@@ -25,10 +25,10 @@ def get_description(soup):
         return result.get('content')
 
 
-def get_check(url):
+def get_check(page):
     result = {'status_code': 200}
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(page.text, 'html.parser')
 
     result['description'] = get_description(soup)
     result['title'] = get_title(soup)
