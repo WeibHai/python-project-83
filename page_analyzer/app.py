@@ -9,6 +9,7 @@ from page_analyzer.db import insert_in_db
 from page_analyzer.check import get_check
 from dotenv import load_dotenv
 from datetime import date
+import requests
 import os
 
 
@@ -108,37 +109,40 @@ def post_analyzer():
 def post_checks(id):
     query_select = '''SELECT * FROM urls WHERE id=%s'''
 
-    response = get_one_from_db(query_select, id)
+    url = get_one_from_db(query_select, id)['name']
 
-    result_check = get_check(response['name'])
+    result_check = requests.get(url)
 
-    if not result_check:
+    if result_check.status_code != 200:
         flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('url', id=id))
+    
+    else:
+        get_check(result_check)
 
-    query_insert = '''
-                   INSERT INTO url_checks (
-                    url_id,
-                    status_code,
-                    h1,
-                    title,
-                    description,
-                    created_at)
-                   VALUES (%s, %s, %s, %s, %s, %s)
-                   '''
+        query_insert = '''
+                       INSERT INTO url_checks (
+                       url_id,
+                       status_code,
+                       h1,
+                       title,
+                       description,
+                       created_at)
+                       VALUES (%s, %s, %s, %s, %s, %s)
+                       '''
 
-    insert_in_db(
-        query_insert,
-        id,
-        result_check['status_code'],
-        result_check['h1'],
-        result_check['title'],
-        result_check['description'],
-        date.today()
-    )
+        insert_in_db(
+            query_insert,
+            id,
+            result_check['status_code'],
+            result_check['h1'],
+            result_check['title'],
+            result_check['description'],
+            date.today()
+        )
 
-    flash('Страница успешно проверена', 'success')
-    return redirect(url_for('url', id=id))
+        flash('Страница успешно проверена', 'success')
+        return redirect(url_for('url', id=id))
 
 
 @app.errorhandler(404)
