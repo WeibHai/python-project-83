@@ -9,48 +9,48 @@ load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-CONNECT = 'PSQL connection.'
+CONNECT_MESSAGE = 'PSQL connection.'
 
-DISCONNECT = 'PSQL connection closed.'
+DISCONNECT_MESSAGE = 'PSQL connection closed.'
 
 
 def insert_in_db(query, *args):
     connection = db.connect(DATABASE_URL)
-    logging.info(CONNECT)
+    logging.info(CONNECT_MESSAGE)
 
     with connection.cursor() as cursor:
         cursor.execute(query, (args))
 
         connection.commit()
         connection.close()
-        logging.info(DISCONNECT)
+        logging.info(DISCONNECT_MESSAGE)
 
 
 def get_one_from_db(query, *args):
     connection = db.connect(DATABASE_URL)
 
-    logging.info(CONNECT)
+    logging.info(CONNECT_MESSAGE)
 
     with connection.cursor(cursor_factory=db.extras.DictCursor) as cursor:
         cursor.execute(query, args)
         response = cursor.fetchone()
 
         connection.close()
-        logging.info(DISCONNECT)
+        logging.info(DISCONNECT_MESSAGE)
 
         return response
 
 
 def get_all_from_db(query, *args):
     connection = db.connect(DATABASE_URL)
-    logging.info(CONNECT)
+    logging.info(CONNECT_MESSAGE)
 
     with connection.cursor(cursor_factory=db.extras.DictCursor) as cursor:
         cursor.execute(query, args)
         response = cursor.fetchall()
 
         connection.close()
-        logging.info(DISCONNECT)
+        logging.info(DISCONNECT_MESSAGE)
 
         return response
 
