@@ -116,7 +116,7 @@ def post_checks(id):
     if result_check.status_code != 200:
         flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('url', id=id))
-    
+
     else:
         get_check(result_check)
 
