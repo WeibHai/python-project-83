@@ -85,10 +85,7 @@ def post_analyzer():
         for error in errors:
             flash(error, 'danger')
 
-        result = render_template('main_page.html',
-                                 saves_url=url)
-
-        return make_response(result, 422)
+        return render_template('main_page.html', url_name=url), 422
 
     query_insert = '''
                    INSERT INTO urls (name, created_at)
