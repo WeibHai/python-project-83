@@ -21,7 +21,7 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def analyzer():
-    return render_template('main_page.html')
+    return render_template('main.html')
 
 
 @app.get('/urls')
@@ -38,7 +38,7 @@ def urls():
 
     response = get_all_from_db(query)
 
-    return render_template('list_urls_page.html', site=response)
+    return render_template('list_urls.html', site=response)
 
 
 @app.route('/urls/<int:id>')
@@ -85,7 +85,7 @@ def post_analyzer():
         for error in errors:
             flash(error, 'danger')
 
-        return render_template('main_page.html', url_name=url), 422
+        return render_template('main.html', url_name=url), 422
 
     query_insert = '''
                    INSERT INTO urls (name, created_at)
