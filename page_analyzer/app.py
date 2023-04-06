@@ -1,7 +1,7 @@
 from flask import flash, url_for, redirect
 from flask import Flask, render_template, request
-from page_analyzer.validator import validate
-from page_analyzer.normalizator import normalize_url
+from page_analyzer.urls import validate
+from page_analyzer.urls import normalize_url
 from page_analyzer.db import get_one_from_db
 from page_analyzer.db import get_all_from_db
 from page_analyzer.db import find_in_db
