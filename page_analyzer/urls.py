@@ -23,4 +23,4 @@ def validate(url):
         if len(url) > 255:
             errors.append('URL превышает 255 символов')
 
-    return 
+    return errors
